@@ -1,0 +1,7 @@
+Both used to delete data, 
+DELETE is a Database Manipulation Language (DML) command, 
+while TRUNCATE is a Data Definition Language (DDL) command.
+
+  - DELETE is used to remove specific data from a table, while TRUNCATE removes all the rows of a table without maintaining the structure of the table.
+  - DELETE can be used with the WHERE clause, but TRUNCATE cannot. 
+  - DELETE TABLE would remove all the data from the table, while maintaining the structure. TRUNCATE would delete the entire table.
