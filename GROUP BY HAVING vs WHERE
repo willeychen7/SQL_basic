@@ -1,0 +1,18 @@
+WHERE Clause:
+-- Purpose: Filters individual rows before any grouping or aggregation takes place.
+-- Use Case: Used to filter data at the row level, based on conditions applied to individual columns.
+-- When Evaluated: Applied during the data selection phase, before aggregation.
+
+
+HAVING Clause:
+-- Purpose: Filters aggregated rows after grouping or aggregation has been performed.
+-- Use Case: Used to filter aggregated results, such as totals or counts.
+-- When Evaluated: Applied during the result filtering phase, after aggregation.
+
+
+Example: retrieves the referee and the count of customers associated with each referee
+ SELECT referee_id, COUNT(*) AS total_customers
+ FROM Customer
+ WHERE referee_id IS NOT NULL
+ GROUP BY referee_id
+ HAVING COUNT(*) > 1;
