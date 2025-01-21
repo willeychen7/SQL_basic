@@ -1,0 +1,18 @@
+Key Differences: number of arguments
+
+IFNULL (faster)
++----------------------------------------------------------------------+
+Number of Arguments:	Exactly 2
+
+Example:
+SELECT IFNULL(column, 'default_value') FROM table_name;
+------------------------------------------------------------------------
+
+
+COALESCE (slower)
++----------------------------------------------------------------------+
+Number of Arguments: 2 or more
+
+Example:
+SELECT COALESCE(column1, column2, 'default_value') FROM table_name;
+------------------------------------------------------------------------
