@@ -1,3 +1,4 @@
++------------------------------------------------------------------------------------------------------+
 WHERE Clause:
 -- Purpose: Filters individual rows before any grouping or aggregation takes place.
 -- Use Case: Used to filter data at the row level, based on conditions applied to individual columns.
@@ -8,11 +9,85 @@ HAVING Clause:
 -- Purpose: Filters aggregated rows after grouping or aggregation has been performed.
 -- Use Case: Used to filter aggregated results, such as totals or counts.
 -- When Evaluated: Applied during the result filtering phase, after aggregation.
+--------------------------------------------------------------------------------------------------------
+
+Example 1:
+Table: Sales
++-------------+-------+
+| Column Name | Type  |
++-------------+-------+
+| sale_id     | int   | PK1
+| product_id  | int   | FK
+| year        | int   | PK2
+| quantity    | int   |
+| price       | int   |
++-------------+-------+
+
+Table: Product
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| product_id   | int     | PK
+| product_name | varchar |
++--------------+---------+
+
+Input: 
+Sales table:
++---------+------------+------+----------+-------+
+| sale_id | product_id | year | quantity | price |
++---------+------------+------+----------+-------+ 
+| 1       | 100        | 2008 | 10       | 5000  |
+| 2       | 100        | 2009 | 12       | 5000  |
+| 7       | 200        | 2011 | 15       | 9000  |
++---------+------------+------+----------+-------+
+Product table:
++------------+--------------+
+| product_id | product_name |
++------------+--------------+
+| 100        | Nokia        |
+| 200        | Apple        |
+| 300        | Samsung      |
++------------+--------------+
+Output: 
++------------+------------+----------+-------+
+| product_id | first_year | quantity | price |
++------------+------------+----------+-------+ 
+| 100        | 2008       | 10       | 5000  |
+| 200        | 2011       | 15       | 9000  |
++------------+------------+----------+-------+
 
 
-Example: retrieves the referee and the count of customers associated with each referee
- SELECT referee_id, COUNT(*) AS total_customers
- FROM Customer
- WHERE referee_id IS NOT NULL
- GROUP BY referee_id
- HAVING COUNT(*) > 1;
+-- ANSWER1 subquery
+select product_id, year as first_year, quantity, price
+from Sales
+WHERE (product_id, year) in (
+    select product_id, min(year)
+    from Sales
+    group by product_id
+)
+
+
+-- ANSWER2 CTE
+WITH CTE AS(
+    SELECT product_id, min(year) as first_year
+    FROM Sales 
+    GROUP BY product_id
+)
+
+SELECT product_id, year as first_year, quantity, price
+FROM Sales
+WHERE (product_id, year) IN (
+    SELECT *
+    FROM CTE
+)
+
+--------------------------------------
+Explain: WHY CANNOT USE GROUP BY?
+SELECT
+    product_id, min(year) as first_year, quantity, price
+FROM Sales
+GROUP BY product_id
+
+BECAUSE min(year) only replace every number in the 'year' column to minimum for each product_id. It DOES NOT
+EXTRACT the row that have the min(year) row.
+
