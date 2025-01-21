@@ -1,0 +1,21 @@
+Difference between date
+1. column_name BETWEEN 'Given date' - INTERVAL 'X' DAY AND 'Given date'
+2. DATEDIFF('Given date', 'column_name to minus')
+
+-------------------------------------------------------------------------------------
+Example1
+SELECT 
+    activity_date AS day,
+    COUNT(distinct user_id) AS active_users
+FROM Activity
+WHERE activity_date BETWEEN '2019-07-27'-INTERVAL 29 DAY AND '2019-07-27' 
+GROUP BY activity_date
+
+-------------------------------------------------------------------------------------
+Example2
+SELECT 
+    activity_date AS day,
+    COUNT(distinct user_id) AS active_users
+FROM Activity
+WHERE DATEDIFF('2019-07-27', activity_date) < 30
+GROUP BY activity_date
