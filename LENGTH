@@ -1,0 +1,7 @@
+Count number of characters in a string
+
+Leetcode Q1683 Solution Example:
+
+SELECT tweet_id
+FROM Tweets
+WHERE length(content)>15
