@@ -91,3 +91,13 @@ GROUP BY product_id
 BECAUSE min(year) only replace every number in the 'year' column to minimum for each product_id. It DOES NOT
 EXTRACT the row that have the min(year) row.
 
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+
+Example 2
+SELECT 
+    activity_date AS day,
+    COUNT(distinct user_id) AS active_users
+FROM Activity
+WHERE activity_date BETWEEN '2019-07-27'-INTERVAL 29 DAY AND '2019-07-27'
+GROUP BY activity_date
