@@ -1,6 +1,6 @@
 +------------------------------------------------------------------------------------------------------+
 WHERE Clause:
--- Purpose: Filters individual rows before any grouping or aggregation takes place.
+-- Purpose: Filters individual rows before any grouping or aggregation takes place; filter out non-matching queries
 -- Use Case: Used to filter data at the row level, based on conditions applied to individual columns.
 -- When Evaluated: Applied during the data selection phase, before aggregation.
 
