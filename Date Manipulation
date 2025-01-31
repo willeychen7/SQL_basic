@@ -1,6 +1,7 @@
 Difference between date
 1. column_name BETWEEN 'Given date' - INTERVAL 'X' DAY AND 'Given date'
 2. DATEDIFF('Given date', 'column_name to minus')
+3. DATEADD
 
 -------------------------------------------------------------------------------------
 Example1
@@ -8,7 +9,7 @@ SELECT
     activity_date AS day,
     COUNT(distinct user_id) AS active_users
 FROM Activity
-WHERE activity_date BETWEEN '2019-07-27'-INTERVAL 29 DAY AND '2019-07-27' 
+WHERE activity_date BETWEEN '2019-07-27'- **INTERVAL** 29 DAY AND '2019-07-27' 
 GROUP BY activity_date
 
 -------------------------------------------------------------------------------------
@@ -19,3 +20,11 @@ SELECT
 FROM Activity
 WHERE DATEDIFF('2019-07-27', activity_date) < 30
 GROUP BY activity_date
+
+-------------------------------------------------------------------------------------
+Example3
+SELECT *
+FROM emails
+INNER JOIN texts 
+  ON emails.email_id = texts.email_id
+WHERE texts.action_date = DATE_ADD(emails.signup_date, **INTERVAL** 1 DAY);
