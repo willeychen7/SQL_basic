@@ -1,1 +1,9 @@
 ROUND() is a function to ROUND UP decimal points
+
+WHEN USE ROUND(), if you want to avoid INTEGER DIVISION, at least one of the number should not be INTEGER
+
+FOR EXAMPLE:
+
+1. SELECT ROUND(100.0 * 2 / 3, 2) AS result; --> 66.67
+2. SELECT ROUND(100 * 2 / 3, 2) AS result; --> 66.00
+
