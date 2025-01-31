@@ -1,0 +1,28 @@
++-----------------------------------------------------------------------------------------------------------+
+|      Feature    |                      IN                    |                      LIKE                  |
++-----------------+--------------------------------------------+--------------------------------------------+
+|  Functionality  |  Checks for exact matches within a set of  | Searches for partial matches using patterns|
+|                 |  values                                    |                                            |
++-----------------+--------------------------------------------+--------------------------------------------+
+|    Best for     |             Fixed, discrete values	       |              Text-based searches           |
++-----------------+--------------------------------------------+--------------------------------------------+
+|    Performance  |        Faster (optimized with indexes)     |        Slower (especially LIKE '%X%')      |
++-----------------+--------------------------------------------+--------------------------------------------+
+|      Example	  |       WHERE country IN ('USA', 'Canada')   |              WHERE name LIKE 'A%'          |
++-----------------+--------------------------------------------+--------------------------------------------+
+
+
+LIKE required wildcard : "%" can represent multiple characters , "_" represents single character
+
+Example 1 "%":
+SELECT * 
+FROM products 
+WHERE product_name LIKE '%Phone%';
+
+-----------------------------------------
+-----------------------------------------
+
+Example 2 "_":
+SELECT * 
+FROM users 
+WHERE username LIKE 'a__e'; 
