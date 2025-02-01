@@ -1,30 +1,102 @@
 Difference between date
 1. column_name BETWEEN 'Given date' - INTERVAL 'X' DAY AND 'Given date'
-2. DATEDIFF('Given date', 'column_name to minus')
-3. DATEADD(Column_name, INTERVAL 'X' DAY)
+2. DATEDIFF('Given date', 'column_name to minus') --> Returns #Days Difference.
+3. a DATEADD(Col_name, INTERVAL 'X' DAY) ; b.DATESUB(Column_name, INTERVAL 'X' DAY)
 
+4. TIMESTAMPDIFF(unit, date1, date2) --> unit could be YEAR, MONTH, DAY etc.
+
+
+5. DATE_FORMAT(date, format) customed format --> E.G DATE_FORMAT('2024-02-01', '%Y/%m/%d') → '2024/02/01'
+6. a.STR_TO_DATE(Col_name, '%d-%m-%Y'); b.CAST(value AS DATE)
 -------------------------------------------------------------------------------------
-Example1
+
+Example1:
 SELECT 
     activity_date AS day,
     COUNT(distinct user_id) AS active_users
 FROM Activity
 WHERE activity_date BETWEEN '2019-07-27'- INTERVAL 29 DAY AND '2019-07-27' 
 GROUP BY activity_date
-
 -------------------------------------------------------------------------------------
-Example2
+-------------------------------------------------------------------------------------
+
+
+Example2:
 SELECT 
     activity_date AS day,
     COUNT(distinct user_id) AS active_users
 FROM Activity
 WHERE DATEDIFF('2019-07-27', activity_date) < 30
 GROUP BY activity_date
-
 -------------------------------------------------------------------------------------
-Example3
+-------------------------------------------------------------------------------------
+
+
+Example3:
 SELECT *
 FROM emails
 INNER JOIN texts 
   ON emails.email_id = texts.email_id
 WHERE texts.action_date = DATE_ADD(emails.signup_date, INTERVAL 1 DAY);
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+
+
+
+
+MySQL provides a variety of built-in date and time functions for handling DATE, DATETIME, and TIMESTAMP data types.
+
+Result:
++-------------------+------------+------------+--------------------+
+|NOW()              | CURDATE()  | CURTIME()  | UTC_TIMESTAMP()    |
++-------------------+------------+------------+--------------------+
+|2024-02-01 12:30:45| 2024-02-01 | 12:30:45   | 2024-02-01 18:30:45|
++-------------------+------------+------------+--------------------+
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+
+
+EXTRACT DATE PART
+Result:
++------------+------------------------------+-------------------------+
+|Function	 |        Description	        |Example                  |
++------------+------------------------------+-------------------------+
+|YEAR(date)	 |   Extracts year from a date. |YEAR('2024-02-01') → 2024|
++------------+------------------------------+-------------------------+
+|MONTH(date) |   Extracts month (1-12).	    |MONTH('2024-02-01') → 2  |
++------------+------------------------------+-------------------------+
+|DAY(date)	 |   Extracts day of the month. |DAY('2024-02-01') → 1    |
++------------+------------------------------+-------------------------+
+|HOUR(time)	 |   Extracts hour (0-23).      |HOUR('12:30:45') → 12    |
++------------+------------------------------+-------------------------+
+|MINUTE(time)|	 Extracts minute (0-59).	|MINUTE('12:30:45') → 30  |
++------------+------------------------------+-------------------------+
+|SECOND(time)|	 Extracts second (0-59).	|SECOND('12:30:45') → 45  |
++------------+------------------------------+-------------------------+
+
+DATE FORMAT(), minute:"i"; AM/PM:"p"
+Result:
++------------------+-------------------------------------+-------------------------+
+|Format            | MySQL(DATE_FORMAT()                 |          Output         |
++------------------+-------------------------------------+-------------------------+
+|YYYY-MM-DD	       | DATE_FORMAT(NOW(), '%Y-%m-%d')      |         2024-02-01      |
++------------------+-------------------------------------+-------------------------+
+|Month DD, YYYY    | DATE_FORMAT(NOW(), '%M %d, %Y')	 |     February 01, 2024   |
++------------------+-------------------------------------+-------------------------+
+|HH:MI AM/PM       | DATE_FORMAT(NOW(), '%h:%i %p')	     |          02:30 PM       |
++------------------+-------------------------------------+-------------------------+
+|YYYY/MM/DD HH24:MI| DATE_FORMAT(NOW(), '%Y/%m/%d %H:%i')|	    2024/02/01 14:30   |
++------------------+-------------------------------------+-------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
