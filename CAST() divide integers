@@ -1,0 +1,51 @@
+1. Divide Integers using CAST() --> Example: CAST(12345 AS CHAR) AS string_value
+2. Divide Integers Using Multiplication by 1.0 --> Result similar to ::DECIMAL
+3. Divide Integers using ::DECIMAL ; ::FLOAT
+
+Example 1:
+SELECT 
+  CAST(10 AS DECIMAL)/4,
+  CAST(10 AS FLOAT)/4,
+  10/CAST(6 AS DECIMAL),
+  10/CAST(6 AS FLOAT); 
+
+Result
+output	            output	output	            output
+2.5000000000000000	2.5	    1.6666666666666667	1.6666666666666667
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+
+Example 2:
+SELECT 
+  10/6,
+  10*1.0/6,
+  10/6*1.0,
+  10/(6*1.0);
+
+Result
+output	output	            output	output
+1	      1.6666666666666667	1.0	    1.6666666666666667
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+
+Example 3:
+SELECT 
+  10::DECIMAL/4,
+  10::FLOAT/4,
+  10/4::DECIMAL,
+  10/4::FLOAT,
+  10::DECIMAL/6,
+  10::FLOAT/6;
+
+Result
+output              output	output	            output	output	            output
+2.5000000000000000	2.5	    2.5000000000000000	2.5	    1.6666666666666667	1.6666666666
+
+
+
+
+
+
+
