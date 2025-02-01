@@ -1,0 +1,4 @@
+Round Up: CEILING()
+Round Down: FLOOR()
+Raise base to power y: POWER(base, y)
+Modulo or %: MOD(x,y) or "%"
