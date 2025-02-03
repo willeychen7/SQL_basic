@@ -10,6 +10,8 @@
 WHEN TO USE PARTITION: calculating by rows, such as calculating running totals of expense for each department. 
 WHEN TO USE GROUP BY: Removes row-level details and returns only grouped results.
 
+JOIN() could led to more complex operation VS RANK()
+
 
 Example1: Top 5 Artists Spotify (Medium)
 Assume there are three Spotify tables: artists, songs, and global_song_rank, which contain information about the artists, songs, and music charts, respectively.
@@ -34,8 +36,44 @@ ORDER BY artist_rank ASC, artist_name ASC
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
 
+Example 2:
+Assume you're given a table on Walmart user transactions. Based on their most recent transaction date, 
+write a query that retrieve the users along with the number of products they bought.
 
-Example 2: Write a query to display the list of artists sorted in descending order of their concert revenue.
+-- ANSWER1 - USING DENSE_RANK:
+SELECT transaction_date, user_id, purchase_count
+FROM(
+  SELECT 
+  transaction_date,
+  user_id,
+  count(product_id) as purchase_count,
+  DENSE_RANK() OVER(PARTITION BY user_id ORDER BY transaction_date DESC) as date_rk
+FROM user_transactions
+GROUP BY transaction_date,user_id) as subq
+WHERE date_rk = 1
+ORDER BY transaction_date ASC
+
+
+-- ANSWER2 - USING JOIN:
+SELECT 
+  r.transaction_date,
+  r.user_id,
+  count(product_id) as purchase_count
+FROM (
+SELECT 
+  max(transaction_date) as transaction_date,
+  user_id
+FROM user_transactions
+GROUP BY user_id) as r
+LEFT JOIN user_transactions u on 
+  r.user_id = u.user_id AND r.transaction_date = u.transaction_date
+GROUP BY r.transaction_date,r.user_id
+ORDER BY r.transaction_date ASC
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+
+
+Example 3: Write a query to display the list of artists sorted in descending order of their concert revenue.
 -- ANSWER:
 SELECT 
  artist_name, 
@@ -48,7 +86,7 @@ FROM concerts;
 ------------------------------------------------------------------------------------------------------------------
 
 
-Example 3: Write a query to display the list of artists sorted in descending order of their concert revenue by COUNTRY.
+Example 4: Write a query to display the list of artists sorted in descending order of their concert revenue by COUNTRY.
 -- ANSWER
 SELECT 
   artist_name, 
