@@ -1,0 +1,62 @@
++--------------+------------------------------------------------+
+| Function     | Description                        | Example   |
++--------------+------------------------------------+-----------+
+| RANK()       | Gaps in ranking if there are ties. | 1, 2, 2, 4|
++--------------+------------------------------------+-----------+
+| DENSE_RANK() | No gaps, same rank for ties.       | 1, 2, 2, 3| TIE
++--------------+------------------------------------+-----------+
+| ROW_NUMBER() | Unique rank, no ties.              | 1, 2, 3, 4|
++--------------+------------------------------------+-----------+
+WHEN TO USE PARTITION: calculating by rows, such as calculating running totals of expense for each department. 
+WHEN TO USE GROUP BY: Removes row-level details and returns only grouped results.
+
+
+Example1: Top 5 Artists Spotify (Medium)
+Assume there are three Spotify tables: artists, songs, and global_song_rank, which contain information about the artists, songs, and music charts, respectively.
+Write a query to find the top 5 artists whose songs appear most frequently in the Top 10 of the global_song_rank table. Display the top 5 artist names in 
+ascending order, along with their song appearance ranking. If two or more artists have the same number of song appearances, they should be assigned the same 
+ranking, and the rank numbers should be continuous (i.e. 1, 2, 2, 3, 4, 5). 
+If you've never seen a rank order like this before, do the rank window function tutorial.
+
+-- ANSWER:
+SELECT *
+FROM(
+    SELECT 
+      a.artist_name, 
+      DENSE_RANK() OVER(ORDER BY count(g.song_id) DESC) AS artist_rank
+    FROM artists a 
+    LEFT JOIN songs s ON a.artist_id = s.artist_id
+    LEFT JOIN global_song_rank g ON s.song_id = g.song_id
+    WHERE g.rank<=10
+    GROUP BY a.artist_name) subq
+WHERE artist_rank<=5
+ORDER BY artist_rank ASC, artist_name ASC
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+
+
+Example 2: Write a query to display the list of artists sorted in descending order of their concert revenue.
+-- ANSWER:
+SELECT 
+ artist_name, 
+ concert_revenue, 
+ ROW_NUMBER() OVER (ORDER BY concert_revenue) AS row_num,
+ RANK() OVER (ORDER BY concert_revenue) AS rank_num,
+ DENSE_RANK() OVER (ORDER BY concert_revenue) AS dense_rank_num
+FROM concerts;
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+
+
+Example 3: Write a query to display the list of artists sorted in descending order of their concert revenue by COUNTRY.
+-- ANSWER
+SELECT 
+  artist_name, 
+  country,
+  year_of_formation,
+  ROW_NUMBER() OVER (PARTITION BY country ORDER BY year_of_formation) AS row_num,
+ RANK() OVER (PARTITION BY country ORDER BY year_of_formation) AS rank_num,
+ DENSE_RANK() OVER (PARTITION BY country ORDER BY year_of_formation) AS dense_rank_num
+FROM concerts;
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
