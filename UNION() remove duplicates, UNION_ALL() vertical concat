@@ -1,0 +1,8 @@
+UNION ALL: keeps everything, including duplicates.
+UNION: removes duplicates, so you get only the unique items.
+
+Note: Make sure unioned columns have the same DATATYPE!
+
+PostgreSQL == MySQL
+INTERSECT(() == INNER_JOIN()
+EXCEPT() == LEFT JOIN with IS NULL or NOT IN
