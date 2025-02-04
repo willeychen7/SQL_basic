@@ -1,5 +1,5 @@
 Example 1 YoY Growth:
--- ANSWER 1L
+-- ANSWER 1:
 SELECT 
   *,
   round(100*(curr_year_spend-prev_year_spend)/prev_year_spend,2) as yoy_rate
