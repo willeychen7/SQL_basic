@@ -1,6 +1,6 @@
 1. Divide Integers using CAST() --> Example: CAST(12345 AS CHAR) AS string_value
-2. Divide Integers Using Multiplication by 1.0 --> Result similar to ::DECIMAL
-3. Divide Integers using ::DECIMAL ; ::FLOAT
+2. Divide Integers Using Multiplication by 1.0 --> Result similar to ... ASDECIMAL
+3. Divide Integers using ... AS DECIMAL ; ...AS FLOAT
 
 Example 1:
 SELECT 
