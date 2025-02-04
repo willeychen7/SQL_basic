@@ -51,6 +51,9 @@ CONCAT WITH SEPERATOR: CONCAT_WS(',', 'A', 'B', 'C') → 'A,B,C';
 +-------------------------------+
 SUBSTRING(str, start, length): SUBSTRING('abcdef', 2, 3) → 'bcd';
 
++-------------------------------+
+| 8. SUBSTRING_INDEX            |
++-------------------------------+
 SUBSTRING_INDEX(SUBSTRING_INDEX('a,b,c', ',', 2), ',', -1) → 'b'
 --> SUBSTRING_INDEX(str,delimeter,keep first N part)
 ---------------------------------------
