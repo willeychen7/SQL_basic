@@ -125,3 +125,15 @@ WHERE ranked_concerts = 1
 ORDER BY revenue_per_member DESC;
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
+
+
+Example 6:
+NTILE() split data into N equal groups:
+
+SELECT 
+    category, 
+    product, 
+    sales, 
+    NTILE(3) OVER (PARTITION BY category ORDER BY sales DESC) AS sales_rank
+FROM product_sales;  --> OUTPUT 4 tiles.
+
